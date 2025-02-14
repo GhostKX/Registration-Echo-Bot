@@ -7,15 +7,18 @@ import database
 from dotenv import load_dotenv
 import os
 
+# Load environment variables from a .env file
 load_dotenv()
 API_KEY = str(os.getenv('API_KEY'))
 bot = telebot.TeleBot(API_KEY)
 
 trash_messages = []
 
+# Dictionary to store user data during registration
 user_data = {}
 
 
+# Command handler for '/start'
 @bot.message_handler(commands=['start'])
 def start_bot(message):
     user_id = message.from_user.id
@@ -25,6 +28,7 @@ def start_bot(message):
     bot.register_next_step_handler(message, register_first_name)
 
 
+# Function to delete unnecessary messages from chat (clean UI)
 def clear_trash_messages(message):
     user_id = message.from_user.id
     if len(trash_messages) > 0:
@@ -34,6 +38,7 @@ def clear_trash_messages(message):
     return trash_messages
 
 
+# Function to handle first step of registration (choosing Register or Delete)
 def register_first_name(message):
     user_id = message.from_user.id
     if message.text == '📝 Register':
@@ -50,6 +55,7 @@ def register_first_name(message):
         bot.register_next_step_handler(message, register_first_name)
 
 
+# Function to handle second step of registration (last name)
 def register_last_name(message):
     user_id = message.from_user.id
     user_text = message.text
@@ -76,6 +82,7 @@ def register_last_name(message):
             bot.register_next_step_handler(message, register_first_name)
 
 
+# Function to handle email input
 def register_email_address(message):
     user_id = message.from_user.id
     user_text = message.text
@@ -101,6 +108,7 @@ def register_email_address(message):
             bot.register_next_step_handler(message, register_first_name)
 
 
+# Function to validate and register phone number
 def register_phone_number(message):
     user_id = message.from_user.id
     email_address = message.text.strip()
@@ -128,6 +136,7 @@ def register_phone_number(message):
             bot.register_next_step_handler(message, register_phone_number)
 
 
+# Function to finalize registration and store user data
 def finalizing_registration(message):
     user_id = message.from_user.id
     if message.text == '❌ Cancel':
@@ -165,6 +174,7 @@ def finalizing_registration(message):
         bot.register_next_step_handler(message, finalizing_registration)
 
 
+# Function to register another phone number
 def registering_another_phone_number(message):
     user_id = message.from_user.id
     if message.text == '❌ Cancel':
@@ -210,6 +220,7 @@ def registering_another_phone_number(message):
             bot.register_next_step_handler(message, registering_another_phone_number)
 
 
+# Function to create a random password
 def creating_random_password():
     import random
     password_list = []
@@ -225,6 +236,7 @@ def creating_random_password():
             password_list.append(random_symbol)
 
 
+# Function to delete staff member
 def delete_staff(message):
     user_id = message.from_user.id
     if message.text == '❌ Cancel':
@@ -265,4 +277,5 @@ def delete_staff(message):
             bot.register_next_step_handler(message, delete_staff)
 
 
+# Starts bot and runs indefinitely
 bot.polling(non_stop=True)
