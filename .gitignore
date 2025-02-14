@@ -1,0 +1,7 @@
+.venv
+.idea
+.env
+.DS_Store
+company_staff_members.db
+__pycache__/
+
