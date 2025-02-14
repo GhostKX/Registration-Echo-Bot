@@ -117,7 +117,7 @@ Bot: Successfully deleted ✅
 ## Author
 
 - Developed by **GhostKX**
-- GitHub: **[GhostKX](https://github.com/GhostKX/New-Echo-Bot)**
+- GitHub: **[GhostKX](https://github.com/GhostKX/Registration-Echo-Bot)**
 
 
 ## Acknowledgments
